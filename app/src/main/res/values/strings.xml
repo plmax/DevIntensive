@@ -2,16 +2,22 @@
     <string name="app_name">Плетников Максим</string>
 
     <string name="mobile_title">Мобильный</string>
+    <string name="mobile_text">+7 (915) 952&#x2013;11&#x2013;11</string>
+
     <string name="email_title">E-mail</string>
+    <string name="email_text">pletnikov.m@yandex.ru</string>
+
     <string name="vk_title">Профиль в VK</string>
-    <string name="repo_title">Репозитарий</string>
-    <string name="osebe_title">О себе</string>
+    <string name="vk_uri">vk.com/id370842082</string>
 
-    <string name="osebe_text">
-        It is a long established fact that a reader will be distracted by the readable content of a page
+    <string name="repo_title">Репозиторий</string>
+    <string name="repo_uri">github.com/plmax/DevIntensive</string>
+
+    <string name="about_title">О себе</string>
+    <string name="about_text">
+        Есть много вариантов Lorem Ipsum, но большинство из них имеет не всегда приемлемые модификации,
+        например, юмористические вставки или слова, которые даже отдалённо не напоминают латынь.
     </string>
-
-    <string name="phone">+7 (915) 952-11-11</string>
 
 
     <string name="five">5</string>

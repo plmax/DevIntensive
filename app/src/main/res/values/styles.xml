@@ -42,7 +42,7 @@
 
     <style name="font">
         <item name="android:fontFamily">sans-serif-condensed</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
     
     <style name="font.header5">
