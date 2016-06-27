@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">DevIntensive</string>
+    <string name="app_name">Плетников Максим</string>
+
+    <string name="mobile_title">Мобильный</string>
+    <string name="mobile_text">+7 (915) 952&#x2013;11&#x2013;11</string>
+
+    <string name="email_title">E-mail</string>
+    <string name="email_text">pletnikov.m@yandex.ru</string>
+
+    <string name="vk_title">Профиль в VK</string>
+    <string name="vk_uri">vk.com/id370842082</string>
+
+    <string name="repo_title">Репозиторий</string>
+    <string name="repo_uri">github.com/plmax/DevIntensive</string>
+
+    <string name="about_title">О себе</string>
+    <string name="about_text">
+        Есть много вариантов Lorem Ipsum, но большинство из них имеет не всегда приемлемые модификации,
+        например, юмористические вставки или слова, которые даже отдалённо не напоминают латынь.
+    </string>
+
+
+    <string name="five">5</string>
+    <string name="first_text">Рейтинг</string>
+    <string name="second_text">Написано строк кода</string>
+    <string name="third_text">Проектов</string>
+
 </resources>
