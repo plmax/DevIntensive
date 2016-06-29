@@ -24,5 +24,9 @@
     <string name="first_text">Рейтинг</string>
     <string name="second_text">Написано строк кода</string>
     <string name="third_text">Проектов</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_contacts">Контакты</string>
+    <string name="drawer_name_text">Плетников Максим</string>
+    <string name="drawer_mail_text">pletnikov.m@yandex.ru</string>
 
 </resources>
