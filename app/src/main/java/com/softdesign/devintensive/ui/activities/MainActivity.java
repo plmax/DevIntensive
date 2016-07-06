@@ -1,8 +1,14 @@
 package com.softdesign.devintensive.ui.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,6 +21,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,7 +33,12 @@ import android.widget.RelativeLayout;
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
 import com.softdesign.devintensive.utils.ConstantManager;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -83,6 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
         mFab.setOnClickListener(this);
+        mProfilePlaceholder.setOnClickListener(this);
 
         setupToolbar();
         setupDrawer();
@@ -160,6 +173,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.profile_placeholder:
                 // Делаем выбор откуда загружать фото
+                showDialog(ConstantManager.LOAD_PROFILE_PHOTO);
+                break;
 
         }
     }
@@ -246,6 +261,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 showProfilePlaceholder();
                 lockToolbar();
+                mCollapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
             }
         } else {
             mFab.setImageResource(R.drawable.ic_create_black_24dp);
@@ -256,6 +272,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 hideProfilePlaceholder();
                 unlockToolbar();
+                mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
                 saveUserInfoValue();
             }
         }
@@ -293,7 +310,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void    loadPhotoFromCamera(){
+        File photoFile = null;
 
+        Intent takeCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        try {
+            photoFile = createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Обработать ошибку
+        }
+        if (photoFile != null) {
+            // Передать фото в интент
+            takeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+            startActivityForResult(takeCaptureIntent,ConstantManager.REQUEST_CAMERA_PICTURE);
+        }
     }
 
     private void hideProfilePlaceholder(){
@@ -317,6 +348,51 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id){
+            case ConstantManager.LOAD_PROFILE_PHOTO:
+                String[] selectItems = {getString(R.string.user_profile_dialog_gallery), getString(R.string.user_profile_dialog_camera), getString(R.string.user_profile_dialog_cancel)};
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.user_profile_dialog_title);
+                builder.setItems(selectItems, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int choiseItem) {
+                        switch (choiseItem){
+                            case 0:
+                                //Загрузить из галереи
+                                loadPhotoFromGallery();
+                                showSnackbar("Загрузить из галереи");
+                                break;
+                            case 1:
+                                //Загрузить с камеры
+                                loadPhotoFromCamera();
+                                showSnackbar("Загрузить с камеры");
+                                break;
+                            case 2:
+                                //Отмена
+                                dialogInterface.cancel();
+                                showSnackbar("Отмена");
+                                break;
+                        }
+                    }
+                });
+                return builder.create();
+            default:
+                return null;
+        }
+    }
+
+    private File createImageFile() throws IOException{
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        File image = File.createTempFile(imageFileName, ".jpeg", storageDir);
+
+        return image;
+    }
 }
 
